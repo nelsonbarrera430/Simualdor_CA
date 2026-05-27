@@ -1,0 +1,18 @@
+@
+# Ignorar todo por defecto
+*
+
+# Permitir el gitignore
+!.gitignore
+
+# Permitir carpetas estructurales base
+!**/Assets/
+!**/Assets/**/
+!**/ProjectSettings/
+!**/Packages/
+
+# Permitir UNICAMENTE archivos de codigo y texto
+!*.cs
+!*.txt
+!*.json
+!*.asmdef

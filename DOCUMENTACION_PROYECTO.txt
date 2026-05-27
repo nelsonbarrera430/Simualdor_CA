@@ -1,0 +1,83 @@
+DOCUMENTACIÓN NARRATIVA DEL PROYECTO
+Simulador de Conducción — Proyecto de Grado
+============================================
+
+
+ORIGEN Y PROPÓSITO DEL PROYECTO
+
+Todo comenzó con una pregunta simple pero ambiciosa: ¿cómo podríamos enseñar normas de tránsito de una manera que fuera interactiva, segura y medible? La respuesta tomó la forma de un simulador de conducción desarrollado como proyecto de grado, una aplicación que permite a cualquier persona ponerse al volante de un vehículo virtual y enfrentarse a situaciones reales del tráfico, sin el riesgo que implicaría hacerlo en una vía pública. El simulador no solo busca entretener, sino que evalúa activamente el comportamiento del conductor y registra cada infracción cometida, convirtiéndolo en una herramienta educativa con criterios objetivos de evaluación.
+
+
+LA PLATAFORMA Y EL LENGUAJE DE DESARROLLO
+
+Para construir este simulador se eligió Unity como motor de desarrollo, una plataforma ampliamente utilizada en la industria del videojuego y de las simulaciones interactivas. Unity ofrece un entorno visual que facilita el diseño de escenas tridimensionales, la gestión de física realista, la iluminación dinámica y la interacción con objetos del mundo virtual. Todo el comportamiento lógico del simulador fue programado en C#, el lenguaje de scripting nativo de Unity, lo que permitió controlar con precisión cada aspecto del sistema: desde el movimiento del vehículo hasta la detección de infracciones y la presentación de resultados al final de cada prueba.
+
+
+EL VEHÍCULO DEL JUGADOR Y SUS CONTROLES
+
+El protagonista de la experiencia es un vehículo controlado por el jugador, identificado en el sistema con la etiqueta Player. Este carro cuenta con un sistema de control que responde a las entradas del teclado o del mando, reproduciendo de manera aproximada la sensación de conducir un automóvil real con su aceleración, frenado y dirección. Además, el vehículo incluye un velocímetro visual dentro de la pantalla, el llamado VelocímetroHUD, que muestra en todo momento la velocidad a la que se desplaza el conductor. También cuenta con espejos retrovisores funcionales, implementados mediante cámaras secundarias que proyectan en tiempo real la vista trasera del vehículo, añadiendo un nivel de realismo adicional a la experiencia.
+
+
+EL TRÁFICO ARTIFICIAL Y LOS VEHÍCULOS AUTÓNOMOS
+
+Uno de los elementos que mayor complejidad técnica demandó fue la creación de un sistema de tráfico realista con vehículos que se mueven solos por la ciudad. Para esto se integró un paquete especializado conocido como UTS PRO, que provee a los vehículos de inteligencia artificial con la capacidad de seguir rutas predefinidas mediante una red de puntos en el espacio, llamados waypoints. Cada carro autónomo cuenta con un componente de movimiento por rutas y un controlador de inteligencia que le indica cuándo acelerar, cuándo frenar y cómo reaccionar ante obstáculos. El sistema utiliza rayos de detección proyectados hacia adelante desde cada vehículo para identificar si hay otro carro en su camino, y en ese caso, ajustar su velocidad o detenerse para evitar colisiones. Este comportamiento fue ajustado durante el desarrollo para garantizar que los carros de la ciudad no se acumularan ni se chocaran entre sí, logrando una circulación fluida y verosímil.
+
+
+EL SISTEMA DE PUNTUACIÓN
+
+Para que el simulador pueda cumplir su función evaluativa, se diseñó un sistema de puntuación basado en penalizaciones. El conductor comienza cada sesión con una puntuación inicial de cien puntos, y cada infracción que cometa descuenta una cantidad proporcional a la gravedad de la falta. Este sistema fue implementado a través de un componente central llamado PuntajeManager, que actúa como el registro oficial de todas las infracciones cometidas durante la sesión. Al finalizar la prueba, el puntaje acumulado se presenta en un panel final que muestra de forma animada el resultado obtenido, permitiendo al estudiante saber exactamente qué tan bien siguió las normas de tránsito.
+
+
+EL SISTEMA DE ALERTAS E INFRACCIONES
+
+Estrechamente ligado al sistema de puntuación, el simulador cuenta con un sistema de alertas que informa al conductor en tiempo real cuando comete una infracción. Este sistema, implementado en el componente SistemaAlertas, despliega en pantalla un mensaje descriptivo cada vez que ocurre una falta, como sobrepasar un límite de velocidad, ignorar una señal de STOP, atropellar a un peatón o pasar un semáforo en rojo. El mensaje aparece de forma visible y momentánea, sin interrumpir la conducción, de manera que el conductor toma conciencia de su error sin que la experiencia se detenga. Adicionalmente, existe un componente de visualización de alertas más leve, el VisualizadorAlertas, que puede mostrar mensajes informativos sin necesariamente descontar puntos, útil por ejemplo para los mensajes de conteo en las zonas de espera.
+
+
+LAS SEÑALES DE LÍMITE DE VELOCIDAD
+
+El simulador incluye señales de tránsito físicas distribuidas por el escenario que indican los límites de velocidad permitidos en cada tramo de la vía. Se implementaron señales para diferentes velocidades máximas: treinta, cuarenta, cincuenta, sesenta, ochenta y noventa kilómetros por hora. Cada señal funciona como una zona de detección invisible, de modo que cuando el vehículo del jugador la cruza, el sistema registra el nuevo límite de velocidad vigente. A partir de ese momento, si el conductor supera ese límite, el sistema de alertas notifica la infracción y descuenta puntos. Esto obliga al conductor a estar atento a las señales y ajustar su velocidad constantemente, tal como sucede en una vía real.
+
+
+LOS SEMÁFOROS Y LA DETECCIÓN DE LUZ ROJA
+
+El simulador también reproduce el comportamiento de los semáforos de manera funcional. Cada semáforo tiene tres estados posibles: verde, amarillo y rojo, y un componente dedicado se encarga de detectar si el jugador cruza una intersección con el semáforo en luz roja. Cuando eso ocurre, se registra la infracción correspondiente y se descuentan puntos. El sistema fue diseñado para no castigar al conductor que ya está dentro de la intersección cuando el semáforo cambia, replicando de manera justa la lógica que aplica en el tránsito real.
+
+
+EL SISTEMA DE SEÑALES STOP Y SIGA
+
+Uno de los escenarios de prueba más elaborados es el de las señales de STOP y SIGA, que funcionan como un control de tráfico aleatorio en ciertos puntos del recorrido. Cuando el jugador se aproxima a uno de estos puntos, el sistema decide aleatoriamente si mostrará una señal de STOP o una señal de SIGA. Si aparece la señal de STOP, el conductor debe reducir su velocidad y detenerse completamente antes de la barrera, esperando un conteo de varios segundos antes de poder continuar. Si pasa sin detenerse, la infracción es registrada. Si en cambio aparece la señal de SIGA, el conductor debe continuar sin detenerse, y si frena innecesariamente, también se penaliza. Esta mecánica entrena al conductor en la lectura correcta y la obediencia de las señales de control de tránsito.
+
+
+LOS PEATONES Y LOS ANIMALES EN LA VÍA
+
+Para simular las situaciones imprevistas que enfrentan los conductores en la vida real, el simulador incluye peatones y animales que pueden cruzar la vía en momentos inesperados. Los peatones son personajes animados que caminan o corren de un punto al otro de la calzada, y si el conductor los atropella, el sistema detecta la colisión y penaliza gravemente la puntuación. Los animales funcionan de manera similar, apareciendo de forma sorpresiva en el camino y exigiendo una reacción rápida del conductor. Ambos tipos de apariciones están controlados por activadores con probabilidad configurable, de modo que no siempre aparecen en el mismo lugar, haciendo que cada sesión sea ligeramente diferente a la anterior.
+
+
+EL SISTEMA DE CLIMA Y LA AMBIENTACIÓN VISUAL
+
+Para enriquecer la experiencia y añadir un nivel adicional de dificultad y realismo, el simulador cuenta con un sistema de condiciones climáticas. A través del componente ControladorClima, es posible configurar la escena para que se desarrolle durante el día, con plena visibilidad y luz natural, o durante la noche, con iluminación reducida y el desafío adicional de conducir con menor visibilidad. El sistema ajusta tanto la exposición del cielo virtual como la intensidad de la luz direccional que simula el sol, logrando una transición visual convincente entre los diferentes momentos del día. Este aspecto fue pensado para que los instructores puedan poner a prueba las habilidades del conductor en distintas condiciones, tal como ocurre en los exámenes de conducción reales.
+
+
+LA PANTALLA DE CONFIGURACIÓN Y EL SISTEMA DE LOGIN
+
+Antes de entrar a la simulación, el usuario pasa por dos pantallas previas. La primera es una pantalla de inicio de sesión donde el usuario ingresa sus datos, garantizando que cada sesión quede asociada a una persona identificada. La segunda es una pantalla de configuración donde se selecciona el modo de prueba, que puede ser libre, de estacionamiento, de prueba evaluada o del modo Cali, y también se elige la condición climática de la sesión. Estas opciones quedan guardadas y son leídas por el simulador al iniciar, de manera que la experiencia se personaliza según lo que se haya configurado. Toda esta información fluye a través de un gestor de configuración que coordina los datos entre escenas.
+
+
+LOS CHECKPOINTS Y EL SISTEMA DE ZONAS FINALES
+
+Dado que el recorrido de simulación es extenso y puede dividirse en segmentos, el proyecto implementó un sistema de puntos de control, conocidos como checkpoints, que van registrando el avance del conductor a lo largo del recorrido. Si el conductor llega a una zona de control, su posición queda guardada de forma persistente, de manera que si ocurre algún reinicio, el jugador retoma desde el último punto alcanzado y no desde el principio. Al final de cada tramo, existe una zona final de detección que reconoce cuando el vehículo se detiene completamente dentro de ella, momento en el cual se activa el panel de resultados finales y se muestra la puntuación obtenida durante esa etapa del recorrido.
+
+
+EL MODO DE ESTACIONAMIENTO
+
+El simulador también incluye un modo dedicado a la práctica del estacionamiento, una de las maniobras que más dificultad presenta para los conductores novatos. En este modo, el conductor debe maniobrar el vehículo para ubicarlo correctamente dentro de un espacio delimitado, siguiendo las instrucciones del gestor de parqueo. Este componente evalúa si el vehículo terminó correctamente posicionado dentro del área designada, añadiendo otra dimensión a la evaluación integral de las habilidades de conducción.
+
+
+LA NAVEGACIÓN Y LOS INDICADORES DE RUTA
+
+Para facilitar la orientación del conductor dentro del entorno virtual, el simulador cuenta con un sistema de indicadores de ruta que guía al conductor hacia los puntos clave del recorrido. Un panel de navegación muestra información sobre la dirección a seguir, y un indicador visual señala en qué dirección debe girar el conductor en los próximos tramos, simulando la experiencia de conducir con un sistema de navegación activo. Esto es especialmente útil en las primeras sesiones, cuando el conductor aún no conoce el trazado del recorrido.
+
+
+CONCLUSIÓN TÉCNICA
+
+En conjunto, el simulador de conducción reúne más de cuarenta componentes de software desarrollados en C# que trabajan de manera coordinada para recrear una experiencia de conducción evaluable y realista. Cada sistema, desde el tráfico autónomo hasta la detección de infracciones, fue diseñado pensando en la claridad, la extensibilidad y la precisión de la evaluación. El resultado es una herramienta que puede usarse como apoyo pedagógico en la formación de conductores, ofreciendo una alternativa segura y repetible a la práctica en vía pública, con la ventaja adicional de proporcionar retroalimentación inmediata y medible sobre el desempeño del conductor.
